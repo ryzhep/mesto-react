@@ -5,6 +5,7 @@ import Footer from "./Footer.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 
+
 function App() {
   // переменные состояния, отвечающие за видимость трёх попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -12,6 +13,13 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
+  
+    function closeAllPopups() {
+      setIsAddPlacePopupOpen(false);
+      setIsEditProfilePopupOpen(false);
+      setIsEditAvatarPopupOpen(false);
+    }
+  
 
   //изменяют значение
   function handleEditAvatarClick() {
@@ -37,6 +45,7 @@ function App() {
         />
         <Footer />
         <PopupWithForm
+        onClose={closeAllPopups}
           isOpen={isEditProfilePopupOpen}
           popupId="edit-popup"
           idForm="edit-form"
@@ -73,6 +82,7 @@ function App() {
           }
         />
         <PopupWithForm
+        onClose={closeAllPopups}
           isOpen={isAddPlacePopupOpen}
           popupId="newcard-popup"
           idForm="newcard-form"
@@ -107,6 +117,31 @@ function App() {
           }
         />
 
+        <PopupWithForm
+        onClose={closeAllPopups}
+          isOpen={isEditAvatarPopupOpen}
+          popupId="avatar-popup"
+          idForm="avatar-form"
+          title="Обновить аватар"
+          name="avatar"
+          children={
+            <>
+              <input
+                id="avatar-link"
+                type="url"
+                class="popup__input"
+                name="link-avatar"
+                placeholder="URL"
+                required
+              />
+              <span class="popup__input-error avatar-link-error"></span>
+              <button type="submit" class="popup__button">
+                Сохранить
+              </button>
+            </>
+          }
+        />
+
         <ImagePopup />
         <div id="deletecard-popup" class="popup ">
           <div class="popup__container">
@@ -126,30 +161,6 @@ function App() {
                 Да
               </button>
             </form>
-          </div>
-        </div>
-        <div id="avatar-popup" class="popup">
-          <div class="popup__container">
-            <form id="avatar-form" class="popup__form" name="avatar" novalidate>
-              <h2 class="popup__title">Обновить аватар</h2>
-              <input
-                id="avatar-link"
-                type="url"
-                class="popup__input"
-                name="link-avatar"
-                placeholder="URL"
-                required
-              />
-              <span class="popup__input-error avatar-link-error"></span>
-              <button type="submit" class="popup__button">
-                Сохранить
-              </button>
-            </form>
-            <button
-              id="close-avatar-form"
-              class="popup__close-button"
-              type="button"
-            ></button>
           </div>
         </div>
 
