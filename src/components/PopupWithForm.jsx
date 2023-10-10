@@ -8,7 +8,7 @@ function PopupWithForm({ popupId, idForm, title, name, children, isOpen, onClose
         </form>
         <button
           id="close-delete-form"
-          class="popup__close-button"
+          className="popup__close-button"
           type="button"
           onClick={onClose}
         ></button>

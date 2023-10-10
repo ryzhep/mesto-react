@@ -5,7 +5,6 @@ import Footer from "./Footer.jsx";
 import ImagePopup from "./ImagePopup.jsx";
 import PopupWithForm from "./PopupWithForm.jsx";
 
-
 function App() {
   // переменные состояния, отвечающие за видимость трёх попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -13,13 +12,18 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
-  
-    function closeAllPopups() {
-      setIsAddPlacePopupOpen(false);
-      setIsEditProfilePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-    }
-  
+    const [selectedCard, setSelectedCard] = React.useState({ link: '', name: '', isOpen: false});
+
+  function handleCardClick(card) {
+    setSelectedCard({ link: card.link, name: card.name, isOpen: true });
+ }
+
+  function closeAllPopups() {
+    setIsAddPlacePopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setSelectedCard({ link: '', name: '', isOpen: false });
+  }
 
   //изменяют значение
   function handleEditAvatarClick() {
@@ -42,10 +46,11 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
         />
         <Footer />
         <PopupWithForm
-        onClose={closeAllPopups}
+          onClose={closeAllPopups}
           isOpen={isEditProfilePopupOpen}
           popupId="edit-popup"
           idForm="edit-form"
@@ -82,7 +87,7 @@ function App() {
           }
         />
         <PopupWithForm
-        onClose={closeAllPopups}
+          onClose={closeAllPopups}
           isOpen={isAddPlacePopupOpen}
           popupId="newcard-popup"
           idForm="newcard-form"
@@ -118,7 +123,7 @@ function App() {
         />
 
         <PopupWithForm
-        onClose={closeAllPopups}
+          onClose={closeAllPopups}
           isOpen={isEditAvatarPopupOpen}
           popupId="avatar-popup"
           idForm="avatar-form"
@@ -141,8 +146,9 @@ function App() {
             </>
           }
         />
+       
+       <ImagePopup card={selectedCard} onClose={closeAllPopups} /> 
 
-        <ImagePopup />
         <div id="deletecard-popup" class="popup ">
           <div class="popup__container">
             <form
@@ -163,20 +169,6 @@ function App() {
             </form>
           </div>
         </div>
-
-        <template id="template-element">
-          <article class="element">
-            <button class="element__delete" type="button"></button>
-            <img class="element__image" />
-            <div class="element__description">
-              <h2 class="element__name"></h2>
-              <div class="element__like-elements">
-                <button class="element__like" type="button"></button>
-                <p class="element__likes-counter">0</p>
-              </div>
-            </div>
-          </article>
-        </template>
       </div>
     </>
   );

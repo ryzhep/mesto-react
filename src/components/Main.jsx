@@ -2,12 +2,13 @@ import buttonImage from "../images/button-1.svg";
 import plus from "../images/button-2.svg";
 import api from "../utils/Api.js";
 import React from "react";
+import Card from "./Card";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
-  //const [cards, setCards] = useState([]);
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api
@@ -60,24 +61,12 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
         </button>
       </section>
       <section class="elements">
-{/* 
-        {cards.map((card) => (
-        <template id="template-element">
-    <article class="element">
-      <button class="element__delete" type="button"></button>
-      <img class="element__image" style={{ backgroundImage: `url(${card})` }}/>
-      <div class="element__description">
-        <h2 class="element__name"></h2>
-        <div class="element__like-elements">
-          <button class="element__like" type="button"></button>
-          <p class="element__likes-counter">0</p>
-        </div>
-      </div>s
-    </article>
-  </template>
-      ))} */}
-      
-
+      {cards.map(card => (
+          <Card
+            card={card}
+            onCardClick={onCardClick}
+          />
+        ))}
       </section>
     </main>
   );
