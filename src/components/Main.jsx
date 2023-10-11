@@ -33,39 +33,36 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   }, []);
 
   return (
-    <main class="content">
-      <section class="profile">
+    <main className="content">
+      <section className="profile">
         <a
           style={{ backgroundImage: `url(${userAvatar})` }}
           alt="Аватар профиля"
-          class="profile__avatar"
+          className="profile__avatar"
           onClick={onEditAvatar}
         ></a>
-        <div class="profile__info">
-          <h1 class="profile__name">{userName}</h1>
+        <div className="profile__info">
+          <h1 className="profile__name">{userName}</h1>
           <button
-            class="profile__open-popup"
+            className="profile__open-popup"
             type="button"
             onClick={onEditProfile}
           >
             <img
               src={buttonImage}
               alt="изображение карандаша для редактирования"
-              class="profile__image-edit"
+              className="profile__image-edit"
             />
           </button>
-          <p class="profile__profession">{userDescription}</p>
+          <p className="profile__profession">{userDescription}</p>
         </div>
-        <button class="profile__add" type="button" onClick={onAddPlace}>
-          <img src={plus} alt="плюсик" class="profile__add-icon" />
+        <button className="profile__add" type="button" onClick={onAddPlace}>
+          <img src={plus} alt="плюсик" className="profile__add-icon" />
         </button>
       </section>
-      <section class="elements">
-      {cards.map(card => (
-          <Card
-            card={card}
-            onCardClick={onCardClick}
-          />
+      <section className="elements">
+        {cards.map((card) => (
+          <Card key={card._id} card={card} onCardClick={onCardClick} />
         ))}
       </section>
     </main>

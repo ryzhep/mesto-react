@@ -40,7 +40,7 @@ function App() {
 
   return (
     <>
-      <div class="page">
+      <div className="page">
         <Header />
         <Main
           onEditAvatar={handleEditAvatarClick}
@@ -61,26 +61,26 @@ function App() {
               <input
                 id="name-input"
                 type="text"
-                class="popup__input"
+                className="popup__input"
                 name="name"
                 placeholder="Имя"
                 required
-                minlength="2"
-                maxlength="40"
+                minLength="2"
+                maxLength="40"
               />
-              <span class="popup__input-error name-input-error"></span>
+              <span className="popup__input-error name-input-error"></span>
               <input
                 id="profession-input"
                 type="text"
-                class="popup__input"
+                className="popup__input"
                 name="description"
                 placeholder="Вид деятельности"
                 required
-                minlength="2"
-                maxlength="200"
+                minLength="2"
+                maxLength="200"
               />
-              <span class="popup__input-error profession-input-error"></span>
-              <button type="submit" class="popup__button">
+              <span className="popup__input-error profession-input-error"></span>
+              <button type="submit" className="popup__button">
                 Сохранить
               </button>
             </>
@@ -98,24 +98,24 @@ function App() {
               <input
                 id="name-card"
                 type="text"
-                class="popup__input"
+                className="popup__input"
                 name="name"
                 placeholder="Название"
                 required
-                minlength="2"
-                maxlength="30"
+                minLength="2"
+                maxLength="30"
               />
-              <span class="popup__input-error name-card-error"></span>
+              <span className="popup__input-error name-card-error"></span>
               <input
                 id="image-link"
                 type="url"
-                class="popup__input"
+                className="popup__input"
                 name="link"
                 placeholder="Ссылка на картинку"
                 required
               />
-              <span class="popup__input-error image-link-error"></span>
-              <button type="submit" class="popup__button">
+              <span className="popup__input-error image-link-error"></span>
+              <button type="submit" className="popup__button">
                 Создать
               </button>
             </>
@@ -134,13 +134,13 @@ function App() {
               <input
                 id="avatar-link"
                 type="url"
-                class="popup__input"
+                className="popup__input"
                 name="link-avatar"
                 placeholder="URL"
                 required
               />
-              <span class="popup__input-error avatar-link-error"></span>
-              <button type="submit" class="popup__button">
+              <span className="popup__input-error avatar-link-error"></span>
+              <button type="submit" className="popup__button">
                 Сохранить
               </button>
             </>
@@ -149,21 +149,21 @@ function App() {
        
        <ImagePopup card={selectedCard} onClose={closeAllPopups} /> 
 
-        <div id="deletecard-popup" class="popup ">
-          <div class="popup__container">
+        <div id="deletecard-popup" className="popup ">
+          <div className="popup__container">
             <form
               id="deletecard-form"
-              class="popup__form"
+              className="popup__form"
               name="deleteCard"
-              novalidate
+              noValidate
             >
               <button
                 id="close-delete-form"
-                class="popup__close-button"
+                className="popup__close-button"
                 type="button"
               ></button>
-              <h2 class="popup__title">Вы уверены?</h2>
-              <button type="submit" class="popup__submit-button">
+              <h2 className="popup__title">Вы уверены?</h2>
+              <button type="submit" className="popup__submit-button">
                 Да
               </button>
             </form>
