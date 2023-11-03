@@ -13,32 +13,6 @@ function Main({
   onCardDelete,
   cards
 }) {
-  //const [userName, setUserName] = React.useState("");
-  //const [userDescription, setUserDescription] = React.useState("");
-  //const [userAvatar, setUserAvatar] = React.useState("");
-  //const [cards, setCards] = React.useState([]);
-
-  // React.useEffect(() => {
-  //   api
-  //     .getInfoUser()
-  //     .then((userInfo) => {
-  //       setUserName(userInfo.name);
-  //       setUserDescription(userInfo.about);
-  //       setUserAvatar(userInfo.avatar);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   api
-  //     .getAllCards()
-  //     .then((cardList) => {
-  //       setCards(cardList);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   const currentUser = React.useContext(CurrentUserContext);
   

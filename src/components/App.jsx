@@ -8,6 +8,7 @@ import api from "../utils/Api.js";
 import EditProfilePopup from "../components/EditProfilePopup.jsx";
 import EditAvatarPopup from "../components/EditAvatarPopup.jsx";
 import AddPlacePopup from "../components/AddPlacePopup.jsx";
+import ConfirmDeletePopup from '../components/ConfirmDeletePopup.jsx';
 
 function App() {
   // переменные состояния, отвечающие за видимость трёх попапов
@@ -15,6 +16,7 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCardDelete, setSelectedCardDelete] = React.useState({});
+  const [isConfirmDeletePopupOpen, setConfirmDeletePopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
@@ -56,11 +58,20 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.likeCard(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        setCards(newCards);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
-
+  function handleConfirmDeleteClick(card) {
+    setConfirmDeletePopupOpen(!isConfirmDeletePopupOpen);
+    setSelectedCardDelete(card);
+  }
   function handleCardDelete() {
     api
       .deleteCard(selectedCardDelete._id)
@@ -80,6 +91,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard({ link: "", name: "", isOpen: false });
+    setConfirmDeletePopupOpen(false);
   }
 
   //изменяют значение
@@ -95,28 +107,34 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
   // работает
-  function handleUpdateUser(data) {
+  function handleUpdateUser(data) { 
     api
       .editProfile(data)
       .then(() => {
-        setCurrentUser(data);
+        setCurrentUser(prevUser => ({
+          ...prevUser, // сохраняем предыдущие свойства пользователя
+          ...data // обновляем только измененные свойства из data
+        }));
         closeAllPopups();
       })
       .catch((error) => {
         console.log(error);
       });
   }
-  function handleUpdateAvatar(avatar) {
-    api
-      .newAvatar(avatar)
-      .then(() => {
-        setCurrentUser(avatar);
-        closeAllPopups();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  
+
+    function handleUpdateAvatar(avatar) {
+      api.newAvatar(avatar)
+        .then((newUserData) => {
+          setCurrentUser(newUserData);
+          closeAllPopups();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    
+  
 
   function handleAddPlaceSubmit(card) {
     api
@@ -140,8 +158,8 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
           cards={cards}
+          onCardDelete={handleConfirmDeleteClick}
         />
         <Footer />
         <EditProfilePopup
@@ -162,27 +180,11 @@ function App() {
         />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
-        <div id="deletecard-popup" className="popup ">
-          <div className="popup__container">
-            <form
-              id="deletecard-form"
-              className="popup__form"
-              name="deleteCard"
-              noValidate
-            >
-              <button
-                id="close-delete-form"
-                className="popup__close-button"
-                type="button"
-              ></button>
-              <h2 className="popup__title">Вы уверены?</h2>
-              <button type="submit" className="popup__submit-button">
-                Да
-              </button>
-            </form>
-          </div>
-        </div>
+        <ConfirmDeletePopup
+            isOpen={isConfirmDeletePopupOpen}
+            onClose={closeAllPopups}
+            onDeleteCard={handleCardDelete}
+          />
       </div>
     </CurrentUserContext.Provider>
   );

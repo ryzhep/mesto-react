@@ -77,18 +77,11 @@ class Api {
     });
   }
 
-  //лайкнуть карточку
-  likeCard(cardId) {
-    return this._sendRequest(`${this._url}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: this._headers,
-    });
-  }
 
-  //убрать лайк
-  likeDelete(cardId) {
+// добавить убрать лайк
+  changeLikeCardStatus(cardId, isLiked) {
     return this._sendRequest(`${this._url}/cards/${cardId}/likes`, {
-      method: "DELETE",
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers,
     });
   }
