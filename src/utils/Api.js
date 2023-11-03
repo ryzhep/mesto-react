@@ -35,13 +35,13 @@ class Api {
   }
 
   //Редактирование профиля
-  editProfile(name, about) {
+  editProfile(data) {
     return this._sendRequest(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        about: about,
+        name: data.name,
+        about: data.about,
       }),
     });
   }
@@ -52,19 +52,19 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: avatar,
+        avatar: avatar.avatar
       }),
     });
   }
 
   //Добавление новой карточки
-  apiAddNewCard(name, link) {
+  apiAddNewCard(newCard) {
     return this._sendRequest(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: name,
-        link: link,
+        name: newCard.name,
+        link:newCard.link,
       }),
     });
   }

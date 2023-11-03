@@ -1,48 +1,58 @@
 import buttonImage from "../images/button-1.svg";
 import plus from "../images/button-2.svg";
-import api from "../utils/Api.js";
 import React from "react";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  cards
+}) {
+  //const [userName, setUserName] = React.useState("");
+  //const [userDescription, setUserDescription] = React.useState("");
+  //const [userAvatar, setUserAvatar] = React.useState("");
+  //const [cards, setCards] = React.useState([]);
 
-  React.useEffect(() => {
-    api
-      .getInfoUser()
-      .then((userInfo) => {
-        setUserName(userInfo.name);
-        setUserDescription(userInfo.about);
-        setUserAvatar(userInfo.avatar);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  // React.useEffect(() => {
+  //   api
+  //     .getInfoUser()
+  //     .then((userInfo) => {
+  //       setUserName(userInfo.name);
+  //       setUserDescription(userInfo.about);
+  //       setUserAvatar(userInfo.avatar);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
 
-    api
-      .getAllCards()
-      .then((cardList) => {
-        setCards(cardList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  //   api
+  //     .getAllCards()
+  //     .then((cardList) => {
+  //       setCards(cardList);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
+  const currentUser = React.useContext(CurrentUserContext);
+  
   return (
     <main className="content">
       <section className="profile">
         <a
-          style={{ backgroundImage: `url(${userAvatar})` }}
+          style={{ backgroundImage: `url(${currentUser.avatar})` }}
           alt="Аватар профиля"
           className="profile__avatar"
           onClick={onEditAvatar}
         ></a>
         <div className="profile__info">
-          <h1 className="profile__name">{userName}</h1>
+          <h1 className="profile__name">{currentUser.name}</h1>
           <button
             className="profile__open-popup"
             type="button"
@@ -54,7 +64,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
               className="profile__image-edit"
             />
           </button>
-          <p className="profile__profession">{userDescription}</p>
+          <p className="profile__profession">{currentUser.about}</p>
         </div>
         <button className="profile__add" type="button" onClick={onAddPlace}>
           <img src={plus} alt="плюсик" className="profile__add-icon" />
@@ -62,7 +72,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       </section>
       <section className="elements">
         {cards.map((card) => (
-          <Card key={card._id} card={card} onCardClick={onCardClick} />
+          <Card
+            key={card._id}
+            card={card}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+          />
         ))}
       </section>
     </main>
